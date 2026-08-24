@@ -51,6 +51,7 @@ interface SlimTool {
   slug: string;
   requiredInputs: SlimField[];
   outputFields: SlimField[];
+  tags: string[];
 }
 
 // The catalog path is the last CLI argument (we append it after your run command).
@@ -141,8 +142,9 @@ function extractSlimTool(tool: Tool): SlimTool | null {
   const outputSchema: Record<string, any> = tool.outputParameters ?? {};
   const defs: Record<string, any> = outputSchema.$defs ?? {};
   const outputFields = collectOutputFields(outputSchema, defs);
+  const tags: string[] = Array.isArray(tool.tags) ? tool.tags : [];
 
-  return { slug, requiredInputs, outputFields };
+  return { slug, requiredInputs, outputFields, tags };
 }
 
 function inferService(slug: string): string {
@@ -404,6 +406,34 @@ async function llmEdges(slim: SlimTool[]): Promise<Edge[]> {
   return allEdges;
 }
 
+/**
+ * Post-merge edge quality filters — applied once to the combined edge set.
+ *
+ * Rule 1 (no cycle edges): drop any edge where `label` is a required input
+ *   of the producer. You cannot call a tool to obtain the value you need
+ *   in order to call that same tool.
+ *
+ * Rule 2 (read-only producers only): only tools tagged readOnlyHint may
+ *   appear as `from`. A DELETE or CREATE tool is never a way to learn an ID.
+ */
+function filterEdges(edges: Edge[], slim: SlimTool[]): Edge[] {
+  const bySlug = new Map<string, SlimTool>();
+  for (const t of slim) bySlug.set(t.slug, t);
+
+  return edges.filter((e) => {
+    const producer = bySlug.get(e.from);
+    if (!producer) return false;
+
+    // Rule 1 — cycle check
+    if (e.label && producer.requiredInputs.some((f) => f.name === e.label)) return false;
+
+    // Rule 2 — read-only producers only
+    if (!producer.tags.includes("readOnlyHint")) return false;
+
+    return true;
+  });
+}
+
 async function generate(tools: Tool[]): Promise<Graph> {
   const slim = tools.map(extractSlimTool).filter((t): t is SlimTool => t !== null);
 
@@ -417,14 +447,15 @@ async function generate(tools: Tool[]): Promise<Graph> {
 
   // Merge and deduplicate by from+to+label
   const seen = new Set<string>();
-  const allEdges: Edge[] = [];
+  const merged: Edge[] = [];
   for (const e of [...hEdges, ...lEdges]) {
     const key = `${e.from}|${e.to}|${e.label ?? ""}`;
-    if (!seen.has(key)) {
-      seen.add(key);
-      allEdges.push(e);
-    }
+    if (!seen.has(key)) { seen.add(key); merged.push(e); }
   }
+
+  // Apply quality filters once on the combined set
+  const allEdges = filterEdges(merged, slim);
+  console.error(`After filtering: ${allEdges.length} edges (was ${merged.length})`);
 
   return { nodes, edges: allEdges };
 }
