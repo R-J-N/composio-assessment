@@ -258,12 +258,38 @@ Rules:
 4. Only use slugs from the tools listed in the batch.
 5. Return ONLY a valid JSON array of edges. No explanation, no markdown fences.`;
 
+/**
+ * Keep only output fields that look like resource identifiers —
+ * values another tool might need as input. Drop timestamps, URLs,
+ * booleans, and free-text content fields.
+ */
+function isIdentifierField(field: SlimField): boolean {
+  const n = field.name;
+  if (n.endsWith("_at")) return false;                          // timestamps
+  if (n.endsWith("_url") || n === "url") return false;         // URLs
+  if (n.startsWith("is_") || n.startsWith("has_") ||
+      n.startsWith("can_") || n.startsWith("allow_")) return false; // booleans
+  const dropExact = new Set([
+    "title", "body", "description", "message", "content", "text",
+    "total_count", "size", "draft", "locked", "merged", "private",
+    "fork", "archived", "disabled",
+  ]);
+  if (dropExact.has(n)) return false;
+  // Keep names that are clearly identifiers
+  const keepSuffixes = ["_id", "_number", "_sha", "_key", "_slug", "_token", "_ref", "_name", "_login"];
+  if (keepSuffixes.some((s) => n.endsWith(s))) return true;
+  const keepExact = new Set(["id", "number", "sha", "ref", "login", "name", "slug", "tag", "email", "type", "state"]);
+  if (keepExact.has(n)) return true;
+  return false;
+}
+
 function formatToolForPrompt(tool: SlimTool): string {
   const inputs = tool.requiredInputs.length
     ? tool.requiredInputs.map((f) => `    - ${f.name}: ${f.description}`).join("\n")
     : "    (none)";
-  const outputs = tool.outputFields.length
-    ? tool.outputFields.slice(0, 15).map((f) => `    - ${f.name}: ${f.description}`).join("\n")
+  const identifierOutputs = tool.outputFields.filter(isIdentifierField);
+  const outputs = identifierOutputs.length
+    ? identifierOutputs.map((f) => `    - ${f.name}: ${f.description}`).join("\n")
     : "    (none)";
   return `TOOL: ${tool.slug}\n  REQUIRED INPUTS:\n${inputs}\n  OUTPUTS:\n${outputs}`;
 }
@@ -302,7 +328,7 @@ const SERVICE_GROUPS: string[][] = [
   ["sponsors", "classroom", "deploy_keys", "artifacts", "discussions", "stars", "migrations", "other"],
 ];
 
-function groupIntoServiceBatches(slim: SlimTool[], maxBatchSize = 50): SlimTool[][] {
+function groupIntoServiceBatches(slim: SlimTool[], maxBatchSize = 150): SlimTool[][] {
   const byService = new Map<string, SlimTool[]>();
   for (const tool of slim) {
     const svc = inferService(tool.slug);
