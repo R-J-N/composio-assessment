@@ -1,1 +1,1272 @@
-[]
+[
+  {
+    "from": "GITHUB_CREATE_AN_ISSUE",
+    "to": "GITHUB_ADD_ASSIGNEES_TO_AN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_CREATE_AN_ISSUE",
+    "to": "GITHUB_ADD_LABELS_TO_AN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_CREATE_AN_ISSUE",
+    "to": "GITHUB_CHECK_IF_USER_CAN_BE_ASSIGNED_TO_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_CREATE_AN_ISSUE",
+    "to": "GITHUB_CLOSE_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_CREATE_AN_ISSUE",
+    "to": "GITHUB_CREATE_AN_ISSUE_COMMENT",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_CREATE_AN_ISSUE",
+    "to": "GITHUB_CREATE_REACTION_FOR_AN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_CREATE_AN_ISSUE",
+    "to": "GITHUB_DELETE_ISSUE_REACTION",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_CREATE_AN_ISSUE",
+    "to": "GITHUB_GET_AN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_CREATE_AN_ISSUE",
+    "to": "GITHUB_GET_ISSUE_COMMENTS",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_CREATE_AN_ISSUE",
+    "to": "GITHUB_LIST_ISSUE_COMMENTS",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_CREATE_AN_ISSUE",
+    "to": "GITHUB_LIST_ISSUE_DEPENDENCIES_BLOCKED_BY",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_CREATE_AN_ISSUE",
+    "to": "GITHUB_LIST_ISSUE_DEPENDENCIES_BLOCKING",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_CREATE_AN_ISSUE",
+    "to": "GITHUB_LIST_ISSUE_EVENTS",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_CREATE_AN_ISSUE",
+    "to": "GITHUB_LIST_LABELS_FOR_AN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_CREATE_AN_ISSUE",
+    "to": "GITHUB_LIST_REACTIONS_FOR_AN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_CREATE_AN_ISSUE",
+    "to": "GITHUB_LIST_SUB_ISSUES",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_CREATE_AN_ISSUE",
+    "to": "GITHUB_LIST_TIMELINE_EVENTS_FOR_AN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_CREATE_AN_ISSUE",
+    "to": "GITHUB_LOCK_AN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_CREATE_AN_ISSUE",
+    "to": "GITHUB_REMOVE_A_LABEL_FROM_AN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_CREATE_AN_ISSUE",
+    "to": "GITHUB_REMOVE_ALL_LABELS_FROM_AN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_CREATE_AN_ISSUE",
+    "to": "GITHUB_REMOVE_ASSIGNEES_FROM_AN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_CREATE_AN_ISSUE",
+    "to": "GITHUB_REOPEN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_CREATE_AN_ISSUE",
+    "to": "GITHUB_SET_LABELS_FOR_AN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_CREATE_AN_ISSUE",
+    "to": "GITHUB_UNLOCK_AN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_CREATE_AN_ISSUE",
+    "to": "GITHUB_UPDATE_AN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_GET_AN_ISSUE_COMMENT",
+    "to": "GITHUB_CREATE_REACTION_FOR_AN_ISSUE_COMMENT",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_GET_AN_ISSUE_COMMENT",
+    "to": "GITHUB_DELETE_ISSUE_COMMENT",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_GET_AN_ISSUE_COMMENT",
+    "to": "GITHUB_DELETE_ISSUE_COMMENT_REACTION",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_GET_AN_ISSUE_COMMENT",
+    "to": "GITHUB_LIST_REACTIONS_FOR_AN_ISSUE_COMMENT",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_GET_AN_ISSUE_COMMENT",
+    "to": "GITHUB_UPDATE_AN_ISSUE_COMMENT",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_LIST_ISSUE_COMMENTS",
+    "to": "GITHUB_CREATE_REACTION_FOR_AN_ISSUE_COMMENT",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_LIST_ISSUE_COMMENTS",
+    "to": "GITHUB_DELETE_ISSUE_COMMENT",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_LIST_ISSUE_COMMENTS",
+    "to": "GITHUB_DELETE_ISSUE_COMMENT_REACTION",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_LIST_ISSUE_COMMENTS",
+    "to": "GITHUB_LIST_REACTIONS_FOR_AN_ISSUE_COMMENT",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_LIST_ISSUE_COMMENTS",
+    "to": "GITHUB_UPDATE_AN_ISSUE_COMMENT",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_ISSUES",
+    "to": "GITHUB_ADD_ASSIGNEES_TO_AN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_ISSUES",
+    "to": "GITHUB_ADD_LABELS_TO_AN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_ISSUES",
+    "to": "GITHUB_CHECK_IF_USER_CAN_BE_ASSIGNED_TO_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_ISSUES",
+    "to": "GITHUB_CLOSE_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_ISSUES",
+    "to": "GITHUB_CREATE_AN_ISSUE_COMMENT",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_ISSUES",
+    "to": "GITHUB_CREATE_REACTION_FOR_AN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_ISSUES",
+    "to": "GITHUB_DELETE_ISSUE_REACTION",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_ISSUES",
+    "to": "GITHUB_GET_AN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_ISSUES",
+    "to": "GITHUB_GET_ISSUE_COMMENTS",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_ISSUES",
+    "to": "GITHUB_LIST_ISSUE_COMMENTS",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_ISSUES",
+    "to": "GITHUB_LIST_ISSUE_DEPENDENCIES_BLOCKED_BY",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_ISSUES",
+    "to": "GITHUB_LIST_ISSUE_DEPENDENCIES_BLOCKING",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_ISSUES",
+    "to": "GITHUB_LIST_ISSUE_EVENTS",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_ISSUES",
+    "to": "GITHUB_LIST_LABELS_FOR_AN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_ISSUES",
+    "to": "GITHUB_LIST_REACTIONS_FOR_AN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_ISSUES",
+    "to": "GITHUB_LIST_SUB_ISSUES",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_ISSUES",
+    "to": "GITHUB_LIST_TIMELINE_EVENTS_FOR_AN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_ISSUES",
+    "to": "GITHUB_LOCK_AN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_ISSUES",
+    "to": "GITHUB_REMOVE_A_LABEL_FROM_AN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_ISSUES",
+    "to": "GITHUB_REMOVE_ALL_LABELS_FROM_AN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_ISSUES",
+    "to": "GITHUB_REMOVE_ASSIGNEES_FROM_AN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_ISSUES",
+    "to": "GITHUB_REOPEN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_ISSUES",
+    "to": "GITHUB_SET_LABELS_FOR_AN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_ISSUES",
+    "to": "GITHUB_UNLOCK_AN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_ISSUES",
+    "to": "GITHUB_UPDATE_AN_ISSUE",
+    "label": "issue_number"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_CONVERT_PULL_REQUEST_TO_DRAFT",
+    "label": "pullRequestId"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_MARK_PULL_REQUEST_READY_FOR_REVIEW",
+    "label": "pull_request_id"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_GET_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_CLOSE_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_REOPEN_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_UPDATE_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_UPDATE_A_PULL_REQUEST_BRANCH",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_LIST_COMMITS_ON_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_LIST_PULL_REQUESTS_FILES",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_LIST_REQUESTED_REVIEWERS_FOR_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_LIST_REVIEWS_FOR_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_LIST_REVIEW_COMMENTS_ON_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_GET_A_REVIEW_FOR_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_DISMISS_A_REVIEW_FOR_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_REMOVE_REQUESTED_REVIEWERS_FROM_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_REQUEST_REVIEWERS_FOR_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_SUBMIT_A_REVIEW_FOR_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_UPDATE_PULL_REQUEST_REVIEW",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_DELETE_PENDING_REVIEW",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_APPROVE_WORKFLOW_RUN_FOR_FORK_PULL_REQUEST",
+    "label": "run_id"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_CHECK_IF_PULL_REQUEST_HAS_BEEN_MERGED",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_CHECK_IF_PULL_REQUEST_MERGED",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_CREATE_A_CODESPACE_FROM_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_CREATE_A_REVIEW_COMMENT_FOR_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_CREATE_A_REVIEW_FOR_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_DELETE_A_REVIEW_COMMENT_FOR_A_PULL_REQUEST",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_DELETE_PULL_REQUEST_COMMENT_REACTION",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_LIST_COMMENTS_FOR_A_PULL_REQUEST_REVIEW",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_LIST_REACTIONS_FOR_A_PULL_REQUEST_REVIEW_COMMENT",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_LIST_REVIEW_COMMENTS_IN_A_REPOSITORY",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_REMOVE_REVIEW_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_REQUEST_REVIEWERS",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_UPDATE_PULL_REQUEST_REVIEW_COMMENT",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_CREATE_A_REPLY_FOR_A_REVIEW_COMMENT",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_GET_A_REVIEW_COMMENT_FOR_A_PULL_REQUEST",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_GET_PULL_REQUEST_REVIEW_PROTECTION",
+    "label": "branch"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_UPDATE_PULL_REQUEST_REVIEW_PROTECTION",
+    "label": "branch"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_MERGE_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_LIST_PULL_REQUESTS_ASSOCIATED_WITH_A_COMMIT",
+    "label": "commit_sha"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_REVIEW_ACCESS_WITH_PERSONAL_TOKEN",
+    "label": "pat_request_id"
+  },
+  {
+    "from": "GITHUB_FIND_PULL_REQUESTS",
+    "to": "GITHUB_REVIEW_RESOURCE_REQUESTS_WITH_FINE_GRAINED_TOKENS",
+    "label": "pat_request_ids"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_CONVERT_PULL_REQUEST_TO_DRAFT",
+    "label": "pullRequestId"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_MARK_PULL_REQUEST_READY_FOR_REVIEW",
+    "label": "pull_request_id"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_GET_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_CLOSE_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_REOPEN_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_UPDATE_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_UPDATE_A_PULL_REQUEST_BRANCH",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_LIST_COMMITS_ON_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_LIST_PULL_REQUESTS_FILES",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_LIST_REQUESTED_REVIEWERS_FOR_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_LIST_REVIEWS_FOR_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_LIST_REVIEW_COMMENTS_ON_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_GET_A_REVIEW_FOR_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_DISMISS_A_REVIEW_FOR_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_REMOVE_REQUESTED_REVIEWERS_FROM_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_REQUEST_REVIEWERS_FOR_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_SUBMIT_A_REVIEW_FOR_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_UPDATE_PULL_REQUEST_REVIEW",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_DELETE_PENDING_REVIEW",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_APPROVE_WORKFLOW_RUN_FOR_FORK_PULL_REQUEST",
+    "label": "run_id"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_CHECK_IF_PULL_REQUEST_HAS_BEEN_MERGED",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_CHECK_IF_PULL_REQUEST_MERGED",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_CREATE_A_CODESPACE_FROM_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_CREATE_A_REVIEW_COMMENT_FOR_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_CREATE_A_REVIEW_FOR_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_DELETE_A_REVIEW_COMMENT_FOR_A_PULL_REQUEST",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_DELETE_PULL_REQUEST_COMMENT_REACTION",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_LIST_COMMENTS_FOR_A_PULL_REQUEST_REVIEW",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_LIST_REACTIONS_FOR_A_PULL_REQUEST_REVIEW_COMMENT",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_LIST_REVIEW_COMMENTS_IN_A_REPOSITORY",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_REMOVE_REVIEW_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_REQUEST_REVIEWERS",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_UPDATE_PULL_REQUEST_REVIEW_COMMENT",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_CREATE_A_REPLY_FOR_A_REVIEW_COMMENT",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_GET_A_REVIEW_COMMENT_FOR_A_PULL_REQUEST",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_GET_PULL_REQUEST_REVIEW_PROTECTION",
+    "label": "branch"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_UPDATE_PULL_REQUEST_REVIEW_PROTECTION",
+    "label": "branch"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_MERGE_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_LIST_PULL_REQUESTS_ASSOCIATED_WITH_A_COMMIT",
+    "label": "commit_sha"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_REVIEW_ACCESS_WITH_PERSONAL_TOKEN",
+    "label": "pat_request_id"
+  },
+  {
+    "from": "GITHUB_GET_PULL_REQUESTS",
+    "to": "GITHUB_REVIEW_RESOURCE_REQUESTS_WITH_FINE_GRAINED_TOKENS",
+    "label": "pat_request_ids"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_CONVERT_PULL_REQUEST_TO_DRAFT",
+    "label": "pullRequestId"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_MARK_PULL_REQUEST_READY_FOR_REVIEW",
+    "label": "pull_request_id"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_GET_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_CLOSE_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_REOPEN_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_UPDATE_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_UPDATE_A_PULL_REQUEST_BRANCH",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_LIST_COMMITS_ON_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_LIST_PULL_REQUESTS_FILES",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_LIST_REQUESTED_REVIEWERS_FOR_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_LIST_REVIEWS_FOR_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_LIST_REVIEW_COMMENTS_ON_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_GET_A_REVIEW_FOR_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_DISMISS_A_REVIEW_FOR_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_REMOVE_REQUESTED_REVIEWERS_FROM_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_REQUEST_REVIEWERS_FOR_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_SUBMIT_A_REVIEW_FOR_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_UPDATE_PULL_REQUEST_REVIEW",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_DELETE_PENDING_REVIEW",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_APPROVE_WORKFLOW_RUN_FOR_FORK_PULL_REQUEST",
+    "label": "run_id"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_CHECK_IF_PULL_REQUEST_HAS_BEEN_MERGED",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_CHECK_IF_PULL_REQUEST_MERGED",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_CREATE_A_CODESPACE_FROM_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_CREATE_A_REVIEW_COMMENT_FOR_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_CREATE_A_REVIEW_FOR_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_DELETE_A_REVIEW_COMMENT_FOR_A_PULL_REQUEST",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_DELETE_PULL_REQUEST_COMMENT_REACTION",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_LIST_COMMENTS_FOR_A_PULL_REQUEST_REVIEW",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_LIST_REACTIONS_FOR_A_PULL_REQUEST_REVIEW_COMMENT",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_LIST_REVIEW_COMMENTS_IN_A_REPOSITORY",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_REMOVE_REVIEW_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_REQUEST_REVIEWERS",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_UPDATE_PULL_REQUEST_REVIEW_COMMENT",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_CREATE_A_REPLY_FOR_A_REVIEW_COMMENT",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_GET_A_REVIEW_COMMENT_FOR_A_PULL_REQUEST",
+    "label": "comment_id"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_GET_PULL_REQUEST_REVIEW_PROTECTION",
+    "label": "branch"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_UPDATE_PULL_REQUEST_REVIEW_PROTECTION",
+    "label": "branch"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_MERGE_A_PULL_REQUEST",
+    "label": "pull_number"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_LIST_PULL_REQUESTS_ASSOCIATED_WITH_A_COMMIT",
+    "label": "commit_sha"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_REVIEW_ACCESS_WITH_PERSONAL_TOKEN",
+    "label": "pat_request_id"
+  },
+  {
+    "from": "GITHUB_LIST_PULL_REQUESTS",
+    "to": "GITHUB_REVIEW_RESOURCE_REQUESTS_WITH_FINE_GRAINED_TOKENS",
+    "label": "pat_request_ids"
+  },
+  {
+    "from": "GITHUB_ADD_A_REPOSITORY_COLLABORATOR",
+    "to": "GITHUB_ACCEPT_REPOSITORY_INVITATION",
+    "label": "invitation_id"
+  },
+  {
+    "from": "GITHUB_ADD_A_REPOSITORY_COLLABORATOR",
+    "to": "GITHUB_DECLINE_A_REPOSITORY_INVITATION",
+    "label": "invitation_id"
+  },
+  {
+    "from": "GITHUB_ADD_A_REPOSITORY_COLLABORATOR",
+    "to": "GITHUB_DELETE_A_REPOSITORY_INVITATION",
+    "label": "invitation_id"
+  },
+  {
+    "from": "GITHUB_CREATE_A_REPOSITORY_FOR_THE_AUTHENTICATED_USER",
+    "to": "GITHUB_ADD_REPOSITORY_TO_APP_INSTALLATION",
+    "label": "repository_id"
+  },
+  {
+    "from": "GITHUB_CREATE_A_REPOSITORY_FOR_THE_AUTHENTICATED_USER",
+    "to": "GITHUB_ADD_SELECTED_REPOSITORY_TO_USER_SECRET",
+    "label": "repository_id"
+  },
+  {
+    "from": "GITHUB_CREATE_A_REPOSITORY_USING_A_TEMPLATE",
+    "to": "GITHUB_ADD_REPOSITORY_TO_APP_INSTALLATION",
+    "label": "repository_id"
+  },
+  {
+    "from": "GITHUB_CREATE_A_REPOSITORY_USING_A_TEMPLATE",
+    "to": "GITHUB_ADD_SELECTED_REPOSITORY_TO_USER_SECRET",
+    "label": "repository_id"
+  },
+  {
+    "from": "GITHUB_CREATE_REPOSITORY",
+    "to": "GITHUB_ADD_REPOSITORY_TO_APP_INSTALLATION",
+    "label": "repository_id"
+  },
+  {
+    "from": "GITHUB_CREATE_REPOSITORY",
+    "to": "GITHUB_ADD_SELECTED_REPOSITORY_TO_USER_SECRET",
+    "label": "repository_id"
+  },
+  {
+    "from": "GITHUB_LIST_RELEASES",
+    "to": "GITHUB_GET_A_RELEASE",
+    "label": "release_id"
+  },
+  {
+    "from": "GITHUB_LIST_RELEASES",
+    "to": "GITHUB_UPDATE_A_RELEASE",
+    "label": "release_id"
+  },
+  {
+    "from": "GITHUB_LIST_RELEASES",
+    "to": "GITHUB_LIST_RELEASE_ASSETS",
+    "label": "release_id"
+  },
+  {
+    "from": "GITHUB_LIST_RELEASES",
+    "to": "GITHUB_UPLOAD_RELEASE_ASSET",
+    "label": "release_id"
+  },
+  {
+    "from": "GITHUB_LIST_RELEASE_ASSETS",
+    "to": "GITHUB_GET_A_RELEASE_ASSET",
+    "label": "asset_id"
+  },
+  {
+    "from": "GITHUB_LIST_RELEASE_ASSETS",
+    "to": "GITHUB_UPDATE_A_RELEASE_ASSET",
+    "label": "asset_id"
+  },
+  {
+    "from": "GITHUB_GET_THE_LATEST_RELEASE",
+    "to": "GITHUB_GET_A_RELEASE",
+    "label": "release_id"
+  },
+  {
+    "from": "GITHUB_GET_THE_LATEST_RELEASE",
+    "to": "GITHUB_UPDATE_A_RELEASE",
+    "label": "release_id"
+  },
+  {
+    "from": "GITHUB_GET_THE_LATEST_RELEASE",
+    "to": "GITHUB_LIST_RELEASE_ASSETS",
+    "label": "release_id"
+  },
+  {
+    "from": "GITHUB_GET_THE_LATEST_RELEASE",
+    "to": "GITHUB_UPLOAD_RELEASE_ASSET",
+    "label": "release_id"
+  },
+  {
+    "from": "GITHUB_GET_A_RELEASE_BY_TAG_NAME",
+    "to": "GITHUB_GET_A_RELEASE",
+    "label": "release_id"
+  },
+  {
+    "from": "GITHUB_GET_A_RELEASE_BY_TAG_NAME",
+    "to": "GITHUB_UPDATE_A_RELEASE",
+    "label": "release_id"
+  },
+  {
+    "from": "GITHUB_GET_A_RELEASE_BY_TAG_NAME",
+    "to": "GITHUB_LIST_RELEASE_ASSETS",
+    "label": "release_id"
+  },
+  {
+    "from": "GITHUB_GET_A_RELEASE_BY_TAG_NAME",
+    "to": "GITHUB_UPLOAD_RELEASE_ASSET",
+    "label": "release_id"
+  },
+  {
+    "from": "GITHUB_GET_ORGANIZATION_TEAMS",
+    "to": "GITHUB_ASSIGN_ORGANIZATION_ROLE_TO_TEAM",
+    "label": "team_slug"
+  },
+  {
+    "from": "GITHUB_GET_ORGANIZATION_TEAMS",
+    "to": "GITHUB_REMOVE_ALL_ORGANIZATION_ROLES_FOR_A_TEAM",
+    "label": "team_slug"
+  },
+  {
+    "from": "GITHUB_GET_ORGANIZATION_TEAMS",
+    "to": "GITHUB_REMOVE_AN_ORGANIZATION_ROLE_FROM_A_TEAM",
+    "label": "team_slug"
+  },
+  {
+    "from": "GITHUB_GET_ORGANIZATION_TEAMS",
+    "to": "GITHUB_REMOVE_TEAM_ACCESS_RESTRICTIONS",
+    "label": "teams"
+  },
+  {
+    "from": "GITHUB_GET_ORGANIZATION_TEAMS",
+    "to": "GITHUB_REMOVE_TEAM_MEMBERSHIP",
+    "label": "team_slug"
+  },
+  {
+    "from": "GITHUB_GET_ORGANIZATION_TEAMS",
+    "to": "GITHUB_REMOVE_TEAM_MEMBERSHIP_FOR_A_USER",
+    "label": "team_slug"
+  },
+  {
+    "from": "GITHUB_GET_ORGANIZATION_TEAMS",
+    "to": "GITHUB_SET_TEAM_ACCESS_RESTRICTIONS",
+    "label": "teams"
+  },
+  {
+    "from": "GITHUB_GET_ORGANIZATION_TEAMS",
+    "to": "GITHUB_UPDATE_A_TEAM",
+    "label": "team_slug"
+  },
+  {
+    "from": "GITHUB_GET_TEAM_MEMBERS",
+    "to": "GITHUB_REMOVE_TEAM_MEMBERSHIP",
+    "label": "username"
+  },
+  {
+    "from": "GITHUB_GET_TEAM_MEMBERS",
+    "to": "GITHUB_REMOVE_TEAM_MEMBERSHIP_FOR_A_USER",
+    "label": "username"
+  },
+  {
+    "from": "GITHUB_GET_TEAM_MEMBERSHIP_FOR_A_USER",
+    "to": "GITHUB_REMOVE_TEAM_MEMBERSHIP",
+    "label": "username"
+  },
+  {
+    "from": "GITHUB_GET_TEAM_MEMBERSHIP_FOR_A_USER",
+    "to": "GITHUB_REMOVE_TEAM_MEMBERSHIP_FOR_A_USER",
+    "label": "username"
+  },
+  {
+    "from": "GITHUB_LIST_CHILD_TEAMS",
+    "to": "GITHUB_ASSIGN_ORGANIZATION_ROLE_TO_TEAM",
+    "label": "team_slug"
+  },
+  {
+    "from": "GITHUB_LIST_CHILD_TEAMS",
+    "to": "GITHUB_REMOVE_ALL_ORGANIZATION_ROLES_FOR_A_TEAM",
+    "label": "team_slug"
+  },
+  {
+    "from": "GITHUB_LIST_CHILD_TEAMS",
+    "to": "GITHUB_REMOVE_AN_ORGANIZATION_ROLE_FROM_A_TEAM",
+    "label": "team_slug"
+  },
+  {
+    "from": "GITHUB_LIST_CHILD_TEAMS",
+    "to": "GITHUB_REMOVE_TEAM_ACCESS_RESTRICTIONS",
+    "label": "teams"
+  },
+  {
+    "from": "GITHUB_LIST_CHILD_TEAMS",
+    "to": "GITHUB_REMOVE_TEAM_MEMBERSHIP",
+    "label": "team_slug"
+  },
+  {
+    "from": "GITHUB_LIST_CHILD_TEAMS",
+    "to": "GITHUB_REMOVE_TEAM_MEMBERSHIP_FOR_A_USER",
+    "label": "team_slug"
+  },
+  {
+    "from": "GITHUB_LIST_CHILD_TEAMS",
+    "to": "GITHUB_SET_TEAM_ACCESS_RESTRICTIONS",
+    "label": "teams"
+  },
+  {
+    "from": "GITHUB_LIST_CHILD_TEAMS",
+    "to": "GITHUB_UPDATE_A_TEAM",
+    "label": "team_slug"
+  },
+  {
+    "from": "GITHUB_LIST_PENDING_TEAM_INVITATIONS",
+    "to": "GITHUB_REMOVE_TEAM_MEMBERSHIP",
+    "label": "username"
+  },
+  {
+    "from": "GITHUB_LIST_PENDING_TEAM_INVITATIONS",
+    "to": "GITHUB_REMOVE_TEAM_MEMBERSHIP_FOR_A_USER",
+    "label": "username"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_TEAMS",
+    "to": "GITHUB_ASSIGN_ORGANIZATION_ROLE_TO_TEAM",
+    "label": "team_slug"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_TEAMS",
+    "to": "GITHUB_REMOVE_ALL_ORGANIZATION_ROLES_FOR_A_TEAM",
+    "label": "team_slug"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_TEAMS",
+    "to": "GITHUB_REMOVE_AN_ORGANIZATION_ROLE_FROM_A_TEAM",
+    "label": "team_slug"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_TEAMS",
+    "to": "GITHUB_REMOVE_TEAM_ACCESS_RESTRICTIONS",
+    "label": "teams"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_TEAMS",
+    "to": "GITHUB_REMOVE_TEAM_MEMBERSHIP",
+    "label": "team_slug"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_TEAMS",
+    "to": "GITHUB_REMOVE_TEAM_MEMBERSHIP_FOR_A_USER",
+    "label": "team_slug"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_TEAMS",
+    "to": "GITHUB_SET_TEAM_ACCESS_RESTRICTIONS",
+    "label": "teams"
+  },
+  {
+    "from": "GITHUB_LIST_REPOSITORY_TEAMS",
+    "to": "GITHUB_UPDATE_A_TEAM",
+    "label": "team_slug"
+  },
+  {
+    "from": "GITHUB_LIST_TEAM_MEMBERS",
+    "to": "GITHUB_REMOVE_TEAM_MEMBERSHIP",
+    "label": "username"
+  },
+  {
+    "from": "GITHUB_LIST_TEAM_MEMBERS",
+    "to": "GITHUB_REMOVE_TEAM_MEMBERSHIP_FOR_A_USER",
+    "label": "username"
+  },
+  {
+    "from": "GITHUB_LIST_TEAM_REPOSITORIES",
+    "to": "GITHUB_REMOVE_A_REPOSITORY_FROM_A_TEAM",
+    "label": "repo"
+  },
+  {
+    "from": "GITHUB_LIST_TEAMS",
+    "to": "GITHUB_ASSIGN_ORGANIZATION_ROLE_TO_TEAM",
+    "label": "team_slug"
+  },
+  {
+    "from": "GITHUB_LIST_TEAMS",
+    "to": "GITHUB_REMOVE_ALL_ORGANIZATION_ROLES_FOR_A_TEAM",
+    "label": "team_slug"
+  },
+  {
+    "from": "GITHUB_LIST_TEAMS",
+    "to": "GITHUB_REMOVE_AN_ORGANIZATION_ROLE_FROM_A_TEAM",
+    "label": "team_slug"
+  },
+  {
+    "from": "GITHUB_LIST_TEAMS",
+    "to": "GITHUB_REMOVE_TEAM_ACCESS_RESTRICTIONS",
+    "label": "teams"
+  },
+  {
+    "from": "GITHUB_LIST_TEAMS",
+    "to": "GITHUB_REMOVE_TEAM_MEMBERSHIP",
+    "label": "team_slug"
+  },
+  {
+    "from": "GITHUB_LIST_TEAMS",
+    "to": "GITHUB_REMOVE_TEAM_MEMBERSHIP_FOR_A_USER",
+    "label": "team_slug"
+  },
+  {
+    "from": "GITHUB_LIST_TEAMS",
+    "to": "GITHUB_SET_TEAM_ACCESS_RESTRICTIONS",
+    "label": "teams"
+  },
+  {
+    "from": "GITHUB_LIST_TEAMS",
+    "to": "GITHUB_UPDATE_A_TEAM",
+    "label": "team_slug"
+  },
+  {
+    "from": "GITHUB_LIST_TEAMS_THAT_ARE_ASSIGNED_TO_AN_ORGANIZATION_ROLE",
+    "to": "GITHUB_REMOVE_ALL_ORGANIZATION_ROLES_FOR_A_TEAM",
+    "label": "team_slug"
+  },
+  {
+    "from": "GITHUB_LIST_TEAMS_THAT_ARE_ASSIGNED_TO_AN_ORGANIZATION_ROLE",
+    "to": "GITHUB_REMOVE_AN_ORGANIZATION_ROLE_FROM_A_TEAM",
+    "label": "team_slug"
+  },
+  {
+    "from": "GITHUB_LIST_TEAMS_THAT_ARE_ASSIGNED_TO_AN_ORGANIZATION_ROLE",
+    "to": "GITHUB_REMOVE_TEAM_ACCESS_RESTRICTIONS",
+    "label": "teams"
+  },
+  {
+    "from": "GITHUB_LIST_TEAMS_THAT_ARE_ASSIGNED_TO_AN_ORGANIZATION_ROLE",
+    "to": "GITHUB_REMOVE_TEAM_MEMBERSHIP",
+    "label": "team_slug"
+  },
+  {
+    "from": "GITHUB_LIST_TEAMS_THAT_ARE_ASSIGNED_TO_AN_ORGANIZATION_ROLE",
+    "to": "GITHUB_REMOVE_TEAM_MEMBERSHIP_FOR_A_USER",
+    "label": "team_slug"
+  },
+  {
+    "from": "GITHUB_LIST_TEAMS_THAT_ARE_ASSIGNED_TO_AN_ORGANIZATION_ROLE",
+    "to": "GITHUB_SET_TEAM_ACCESS_RESTRICTIONS",
+    "label": "teams"
+  },
+  {
+    "from": "GITHUB_LIST_TEAMS_THAT_ARE_ASSIGNED_TO_AN_ORGANIZATION_ROLE",
+    "to": "GITHUB_UPDATE_A_TEAM",
+    "label": "team_slug"
+  }
+]

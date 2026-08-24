@@ -15,6 +15,15 @@
  * handed, and your output must change when the input changes.
  */
 import { readFileSync, writeFileSync, existsSync } from "fs";
+import OpenAI from "openai";
+
+// Load .env locally if present (grader injects vars via environment directly).
+if (existsSync(".env")) {
+  for (const line of readFileSync(".env", "utf-8").split("\n")) {
+    const m = line.match(/^([^#=]+)=(.*)$/);
+    if (m) process.env[m[1].trim()] = m[2].trim();
+  }
+}
 
 type Tool = Record<string, any>;
 interface Node {
@@ -234,6 +243,116 @@ function saveCache(edges: Edge[]): void {
   console.error(`LLM cache saved to ${CACHE_PATH}`);
 }
 
+// --- Prompt building ---
+
+const SYSTEM_PROMPT = `\
+You are a dependency analyst for a GitHub API toolkit.
+Your job is to identify which tools must be called before other tools in order to supply required input values.
+
+A dependency edge means: run tool FROM first to obtain a value, then pass it as a required input to tool TO.
+
+Rules:
+1. Only emit an edge when TO genuinely cannot run without first calling FROM to get a specific value.
+2. Do NOT emit edges for values a user already knows upfront: owner, repo, username, org name, or similar user-provided context.
+3. The "label" must be the required input field name on the consumer tool (TO), not the producer's output field name.
+4. Only use slugs from the tools listed in the batch.
+5. Return ONLY a valid JSON array of edges. No explanation, no markdown fences.`;
+
+function formatToolForPrompt(tool: SlimTool): string {
+  const inputs = tool.requiredInputs.length
+    ? tool.requiredInputs.map((f) => `    - ${f.name}: ${f.description}`).join("\n")
+    : "    (none)";
+  const outputs = tool.outputFields.length
+    ? tool.outputFields.slice(0, 15).map((f) => `    - ${f.name}: ${f.description}`).join("\n")
+    : "    (none)";
+  return `TOOL: ${tool.slug}\n  REQUIRED INPUTS:\n${inputs}\n  OUTPUTS:\n${outputs}`;
+}
+
+function buildPrompt(batch: SlimTool[]): string {
+  const toolList = batch.map(formatToolForPrompt).join("\n\n");
+  return `\
+Identify all dependency edges among the tools below.
+Return a JSON array of objects: { "from": string, "to": string, "label": string }
+
+Example:
+  GITHUB_LIST_REPOSITORY_ISSUES outputs "number" (the issue number).
+  GITHUB_CREATE_AN_ISSUE_COMMENT requires "issue_number" as input.
+  Edge: {"from":"GITHUB_LIST_REPOSITORY_ISSUES","to":"GITHUB_CREATE_AN_ISSUE_COMMENT","label":"issue_number"}
+
+Tools:
+
+${toolList}
+
+Return only the JSON array. If no dependencies exist return [].`;
+}
+
+// Services grouped by relatedness — keeps cross-service dependencies visible in one batch.
+const SERVICE_GROUPS: string[][] = [
+  ["issues", "comments", "labels", "milestones"],
+  ["pulls", "reviews"],
+  ["repos", "branches", "forks"],
+  ["commits", "deployments", "releases"],
+  ["actions"],
+  ["orgs", "teams"],
+  ["users"],
+  ["projects"],
+  ["environments", "checks", "security"],
+  ["packages", "webhooks", "gists"],
+  ["codespaces", "notifications", "pages"],
+  ["sponsors", "classroom", "deploy_keys", "artifacts", "discussions", "stars", "migrations", "other"],
+];
+
+function groupIntoServiceBatches(slim: SlimTool[], maxBatchSize = 50): SlimTool[][] {
+  const byService = new Map<string, SlimTool[]>();
+  for (const tool of slim) {
+    const svc = inferService(tool.slug);
+    const list = byService.get(svc) ?? [];
+    list.push(tool);
+    byService.set(svc, list);
+  }
+
+  const batches: SlimTool[][] = [];
+  for (const group of SERVICE_GROUPS) {
+    const groupTools: SlimTool[] = group.flatMap((svc) => byService.get(svc) ?? []);
+    // Split oversized groups into chunks of maxBatchSize.
+    for (let i = 0; i < groupTools.length; i += maxBatchSize) {
+      const chunk = groupTools.slice(i, i + maxBatchSize);
+      if (chunk.length > 0) batches.push(chunk);
+    }
+  }
+  return batches;
+}
+
+async function callLLMBatch(client: OpenAI, batch: SlimTool[], batchIndex: number): Promise<Edge[]> {
+  const prompt = buildPrompt(batch);
+  console.error(`  Batch ${batchIndex}: ${batch.length} tools → calling LLM...`);
+
+  const response = await client.chat.completions.create({
+    model: "openai/gpt-4o",
+    messages: [
+      { role: "system", content: SYSTEM_PROMPT },
+      { role: "user", content: prompt },
+    ],
+    temperature: 0,
+  });
+
+  const text = response.choices[0]?.message?.content ?? "[]";
+
+  // Strip markdown fences if the model wraps its response.
+  const json = text.replace(/^```(?:json)?\n?/i, "").replace(/\n?```$/i, "").trim();
+
+  try {
+    const edges: Edge[] = JSON.parse(json);
+    console.error(`  Batch ${batchIndex}: got ${edges.length} edges`);
+    return edges.filter(
+      (e) => e.from && e.to && e.label && e.from !== e.to,
+    );
+  } catch {
+    console.error(`  Batch ${batchIndex}: failed to parse response, skipping`);
+    return [];
+  }
+}
+
 async function llmEdges(slim: SlimTool[]): Promise<Edge[]> {
   const cached = loadCache();
   if (cached) {
@@ -241,11 +360,18 @@ async function llmEdges(slim: SlimTool[]): Promise<Edge[]> {
     return cached;
   }
 
-  // TODO: LLM calls go here — prompt design next.
-  console.error("LLM pass: no cache found, skipping (prompt not yet implemented)");
-  const edges: Edge[] = [];
-  saveCache(edges);
-  return edges;
+  const client = new OpenAI();
+  const batches = groupIntoServiceBatches(slim);
+  console.error(`LLM pass: ${batches.length} batches`);
+
+  const allEdges: Edge[] = [];
+  for (let i = 0; i < batches.length; i++) {
+    const edges = await callLLMBatch(client, batches[i], i + 1);
+    allEdges.push(...edges);
+  }
+
+  saveCache(allEdges);
+  return allEdges;
 }
 
 async function generate(tools: Tool[]): Promise<Graph> {
