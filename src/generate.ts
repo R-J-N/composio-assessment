@@ -14,7 +14,7 @@
  * hardcode a toolkit's relations: your node ids must be slugs from the catalog you are
  * handed, and your output must change when the input changes.
  */
-import { readFileSync, writeFileSync } from "fs";
+import { readFileSync, writeFileSync, existsSync } from "fs";
 
 type Tool = Record<string, any>;
 interface Node {
@@ -134,9 +134,22 @@ function extractSlimTool(tool: Tool): SlimTool | null {
 
 function inferService(slug: string): string {
   const s = slug.replace(/^GITHUB_/, "");
+  // More specific checks first to avoid wrong matches.
   if (s.includes("PULL_REQUEST") || s.includes("PULL")) return "pulls";
   if (s.includes("ISSUE"))        return "issues";
   if (s.includes("WORKFLOW") || s.includes("ACTION")) return "actions";
+  if (s.includes("CODE_SCANNING") || s.includes("ADVISORY") || s.includes("SARIF")) return "security";
+  if (s.includes("CHECK_RUN") || s.includes("CHECK_SUITE") || s.includes("STATUS_CHECK")) return "checks";
+  if (s.includes("DEPLOY_KEY"))   return "deploy_keys";
+  if (s.includes("DEPLOYMENT"))   return "deployments";
+  if (s.includes("ENVIRONMENT"))  return "environments";
+  if (s.includes("CODESPACE"))    return "codespaces";
+  if (s.includes("CLASSROOM") || s.includes("ASSIGNMENT")) return "classroom";
+  if (s.includes("SPONSOR"))      return "sponsors";
+  if (s.includes("NOTIFICATION") || s.includes("THREAD")) return "notifications";
+  if (s.includes("PAGES"))        return "pages";
+  if (s.includes("ARTIFACT"))     return "artifacts";
+  if (s.includes("PROJECT"))      return "projects";
   if (s.includes("RELEASE"))      return "releases";
   if (s.includes("BRANCH"))       return "branches";
   if (s.includes("COMMIT"))       return "commits";
@@ -144,7 +157,6 @@ function inferService(slug: string): string {
   if (s.includes("COMMENT"))      return "comments";
   if (s.includes("LABEL"))        return "labels";
   if (s.includes("MILESTONE"))    return "milestones";
-  if (s.includes("DEPLOYMENT"))   return "deployments";
   if (s.includes("DISCUSSION"))   return "discussions";
   if (s.includes("TEAM"))         return "teams";
   if (s.includes("ORG"))          return "orgs";
@@ -203,17 +215,62 @@ function heuristicEdges(slim: SlimTool[]): Edge[] {
   return edges;
 }
 
+// --- LLM cache ---
+const CACHE_PATH = "llm_cache.json";
+const USE_CACHE = !process.argv.includes("--no-cache");
+
+function loadCache(): Edge[] | null {
+  if (!USE_CACHE) return null;
+  if (!existsSync(CACHE_PATH)) return null;
+  try {
+    return JSON.parse(readFileSync(CACHE_PATH, "utf-8"));
+  } catch {
+    return null;
+  }
+}
+
+function saveCache(edges: Edge[]): void {
+  writeFileSync(CACHE_PATH, JSON.stringify(edges, null, 2), "utf-8");
+  console.error(`LLM cache saved to ${CACHE_PATH}`);
+}
+
+async function llmEdges(slim: SlimTool[]): Promise<Edge[]> {
+  const cached = loadCache();
+  if (cached) {
+    console.error(`LLM pass: loaded ${cached.length} edges from cache (pass --no-cache to regenerate)`);
+    return cached;
+  }
+
+  // TODO: LLM calls go here — prompt design next.
+  console.error("LLM pass: no cache found, skipping (prompt not yet implemented)");
+  const edges: Edge[] = [];
+  saveCache(edges);
+  return edges;
+}
+
 async function generate(tools: Tool[]): Promise<Graph> {
   const slim = tools.map(extractSlimTool).filter((t): t is SlimTool => t !== null);
 
   const nodes: Node[] = slim.map((t) => ({ id: t.slug, service: inferService(t.slug) }));
-  const edges = heuristicEdges(slim);
 
-  console.error(`Heuristic pass: ${edges.length} edges found`);
-  console.error(`Sample edges:`);
-  console.error(JSON.stringify(edges.slice(0, 5), null, 2));
+  const hEdges = heuristicEdges(slim);
+  console.error(`Heuristic pass: ${hEdges.length} edges found`);
 
-  return { nodes, edges };
+  const lEdges = await llmEdges(slim);
+  console.error(`LLM pass: ${lEdges.length} edges found`);
+
+  // Merge and deduplicate by from+to+label
+  const seen = new Set<string>();
+  const allEdges: Edge[] = [];
+  for (const e of [...hEdges, ...lEdges]) {
+    const key = `${e.from}|${e.to}|${e.label ?? ""}`;
+    if (!seen.has(key)) {
+      seen.add(key);
+      allEdges.push(e);
+    }
+  }
+
+  return { nodes, edges: allEdges };
 }
 
 async function main() {
