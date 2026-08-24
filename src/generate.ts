@@ -159,11 +159,60 @@ function inferService(slug: string): string {
   return "other";
 }
 
+// Field names that are too generic to draw a reliable heuristic edge for.
+// These will be handled by the LLM pass instead.
+const SKIP_MATCH_FIELDS = new Set([
+  "description", "visibility", "package_type", "content_type",
+  "is_enabled", "permissions", "data_type",
+]);
+
+/** Returns true for field names specific enough to trust as heuristic matches. */
+function isSpecificFieldName(name: string): boolean {
+  if (SKIP_MATCH_FIELDS.has(name)) return false;
+  if (name.length > 8) return true;
+  const specific = ["_number", "_id", "_name", "_key", "_token", "_sha", "_ref"];
+  return specific.some((suffix) => name.endsWith(suffix));
+}
+
+/** Heuristic pass: match required input names against output field names exactly,
+ *  but only for field names specific enough to avoid false positives. */
+function heuristicEdges(slim: SlimTool[]): Edge[] {
+  // Build a map: field name -> list of tools that produce it
+  const producers = new Map<string, string[]>();
+  for (const tool of slim) {
+    for (const field of tool.outputFields) {
+      if (!isSpecificFieldName(field.name)) continue;
+      const list = producers.get(field.name) ?? [];
+      list.push(tool.slug);
+      producers.set(field.name, list);
+    }
+  }
+
+  const edges: Edge[] = [];
+  for (const consumer of slim) {
+    for (const input of consumer.requiredInputs) {
+      if (!isSpecificFieldName(input.name)) continue;
+      const producerSlugs = producers.get(input.name) ?? [];
+      for (const producerSlug of producerSlugs) {
+        if (producerSlug === consumer.slug) continue; // skip self-edges
+        edges.push({ from: producerSlug, to: consumer.slug, label: input.name });
+      }
+    }
+  }
+
+  return edges;
+}
+
 async function generate(tools: Tool[]): Promise<Graph> {
   const slim = tools.map(extractSlimTool).filter((t): t is SlimTool => t !== null);
 
   const nodes: Node[] = slim.map((t) => ({ id: t.slug, service: inferService(t.slug) }));
-  const edges: Edge[] = [];
+  const edges = heuristicEdges(slim);
+
+  console.error(`Heuristic pass: ${edges.length} edges found`);
+  console.error(`Sample edges:`);
+  console.error(JSON.stringify(edges.slice(0, 5), null, 2));
+
   return { nodes, edges };
 }
 
