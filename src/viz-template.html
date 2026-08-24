@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tool Dependency Graph</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0d1117; color: #c9d1d9; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+#controls {
+  display: flex; align-items: center; gap: 16px; padding: 10px 16px;
+  background: #161b22; border-bottom: 1px solid #30363d; flex-shrink: 0; flex-wrap: wrap;
+}
+#controls h1 { font-size: 14px; font-weight: 600; color: #f0f6fc; white-space: nowrap; }
+.ctrl-group { display: flex; align-items: center; gap: 6px; }
+.ctrl-group label { font-size: 12px; color: #8b949e; white-space: nowrap; }
+select, input[type=text] {
+  background: #21262d; color: #c9d1d9; border: 1px solid #30363d; border-radius: 6px;
+  padding: 4px 8px; font-size: 12px; outline: none;
+}
+select:focus, input[type=text]:focus { border-color: #58a6ff; }
+.ctrl-group input[type=checkbox] { accent-color: #58a6ff; }
+#stats { margin-left: auto; font-size: 11px; color: #8b949e; white-space: nowrap; }
+
+#canvas-wrap { flex: 1; position: relative; overflow: hidden; }
+canvas { display: block; width: 100%; height: 100%; }
+canvas.grab { cursor: grab; }
+canvas.grabbing { cursor: grabbing; }
+
+#tooltip {
+  position: absolute; pointer-events: none; display: none;
+  background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+  padding: 10px 14px; font-size: 12px; max-width: 300px; z-index: 10;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+#tooltip .t-slug { font-weight: 600; color: #58a6ff; margin-bottom: 4px; word-break: break-all; font-size: 11px; }
+#tooltip .t-service { color: #8b949e; margin-bottom: 6px; font-size: 11px; }
+#tooltip .t-section { color: #8b949e; font-size: 10px; margin-top: 4px; margin-bottom: 2px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+#tooltip .t-edge { font-size: 11px; color: #c9d1d9; }
+
+#legend {
+  position: absolute; bottom: 16px; right: 16px;
+  background: rgba(22,27,34,0.92); border: 1px solid #30363d; border-radius: 8px;
+  padding: 10px 14px; font-size: 11px; max-height: 220px; overflow-y: auto;
+}
+#legend h3 { font-size: 11px; color: #8b949e; margin-bottom: 6px; font-weight: 500; }
+.legend-item { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; cursor: pointer; border-radius: 4px; padding: 2px 4px; }
+.legend-item:hover { background: #21262d; }
+.legend-item.active { background: #21262d; outline: 1px solid #58a6ff; }
+.legend-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+
+#hint { position: absolute; bottom: 16px; left: 16px; font-size: 10px; color: #484f58; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div id="controls">
+  <h1>Tool Dependency Graph</h1>
+  <div class="ctrl-group">
+    <label>Service</label>
+    <select id="svcFilter"><option value="">All services</option></select>
+  </div>
+  <div class="ctrl-group">
+    <label>Edge label</label>
+    <input type="text" id="lblFilter" placeholder="e.g. issue_number" style="width:180px">
+  </div>
+  <div class="ctrl-group">
+    <label><input type="checkbox" id="showIsolated">&nbsp;Show isolated nodes</label>
+  </div>
+  <span id="stats"></span>
+</div>
+<div id="canvas-wrap">
+  <canvas id="canvas" class="grab"></canvas>
+  <div id="tooltip"></div>
+  <div id="legend"><h3>Services</h3><div id="legend-items"></div></div>
+  <div id="hint">Scroll to zoom · Drag to pan · Click node to highlight · Click again to deselect</div>
+</div>
+
+<script>
+(function () {
+const GRAPH = __GRAPH_DATA__;
+
+const SERVICE_COLORS = {
+  issues:'#ef4444', pulls:'#f97316', repos:'#f59e0b', commits:'#84cc16',
+  branches:'#22c55e', actions:'#10b981', orgs:'#06b6d4', teams:'#3b82f6',
+  users:'#8b5cf6', projects:'#ec4899', environments:'#14b8a6', checks:'#f43f5e',
+  security:'#dc2626', codespaces:'#7c3aed', notifications:'#2563eb', pages:'#059669',
+  releases:'#d97706', deployments:'#0891b2', labels:'#65a30d', milestones:'#9333ea',
+  comments:'#c2410c', reviews:'#0284c7', packages:'#7e22ce', webhooks:'#15803d',
+  gists:'#b45309', discussions:'#1d4ed8', classroom:'#be185d', sponsors:'#a21caf',
+  deploy_keys:'#0f766e', artifacts:'#92400e', forks:'#1e40af', stars:'#a16207',
+  migrations:'#6b21a8', other:'#475569',
+};
+function color(svc) { return SERVICE_COLORS[svc] || '#475569'; }
+
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const wrap = document.getElementById('canvas-wrap');
+const tooltip = document.getElementById('tooltip');
+const statsEl = document.getElementById('stats');
+const svcFilterEl = document.getElementById('svcFilter');
+const lblFilterEl = document.getElementById('lblFilter');
+const showIsolatedEl = document.getElementById('showIsolated');
+const legendItemsEl = document.getElementById('legend-items');
+
+// View transform
+let tx = 0, ty = 0, sc = 1;
+let dragging = false, dragX0, dragY0, tx0, ty0;
+let mouseX = -9999, mouseY = -9999;
+
+// Sim state
+let simNodes = [], simEdges = [], nodeMap = {};
+let hoveredNode = null, selectedNode = null;
+let frame = 0, settled = false;
+const NODE_R = 6;
+
+// ---- Build graph from filters ----
+function rebuild() {
+  const svc = svcFilterEl.value;
+  const lbl = lblFilterEl.value.trim().toLowerCase();
+  const showIso = showIsolatedEl.checked;
+
+  let edges = GRAPH.edges.filter(e => !lbl || (e.label || '').toLowerCase().includes(lbl));
+  const connected = new Set();
+  edges.forEach(e => { connected.add(e.from); connected.add(e.to); });
+
+  let nodes = GRAPH.nodes.filter(n =>
+    (!svc || n.service === svc) && (showIso || connected.has(n.id))
+  );
+  const ids = new Set(nodes.map(n => n.id));
+  edges = edges.filter(e => ids.has(e.from) && ids.has(e.to));
+
+  // Cluster centers — arrange services in a grid
+  const svcs = [...new Set(nodes.map(n => n.service))];
+  const W = canvas.width || wrap.clientWidth;
+  const H = canvas.height || wrap.clientHeight;
+  const cols = Math.max(1, Math.ceil(Math.sqrt(svcs.length * 1.4)));
+  const rows = Math.ceil(svcs.length / cols);
+  const cmap = {};
+  svcs.forEach((s, i) => {
+    cmap[s] = {
+      x: W * 0.08 + (W * 0.84) * ((i % cols) + 0.5) / cols,
+      y: H * 0.08 + (H * 0.84) * (Math.floor(i / cols) + 0.5) / rows,
+    };
+  });
+
+  const prev = {};
+  simNodes.forEach(n => prev[n.id] = n);
+
+  simNodes = nodes.map(n => {
+    if (prev[n.id]) { prev[n.id].cx = cmap[n.service]?.x ?? W/2; prev[n.id].cy = cmap[n.service]?.y ?? H/2; return prev[n.id]; }
+    const c = cmap[n.service] || { x: W/2, y: H/2 };
+    return { id: n.id, service: n.service, x: c.x + (Math.random()-.5)*70, y: c.y + (Math.random()-.5)*70, vx: 0, vy: 0, cx: c.x, cy: c.y };
+  });
+
+  nodeMap = {};
+  simNodes.forEach(n => nodeMap[n.id] = n);
+  simEdges = edges.map(e => ({ ...e, s: nodeMap[e.from], d: nodeMap[e.to] })).filter(e => e.s && e.d);
+
+  statsEl.textContent = `${simNodes.length} nodes · ${simEdges.length} edges`;
+  frame = 0; settled = false;
+}
+
+// ---- Force simulation ----
+function tick() {
+  if (settled) return;
+  frame++;
+
+  const n = simNodes.length;
+  const REP = 600, SPR = 0.04, REST = 85, CLU = 0.018, DAMP = 0.78;
+
+  // Repulsion
+  for (let i = 0; i < n; i++) {
+    const a = simNodes[i];
+    for (let j = i+1; j < n; j++) {
+      const b = simNodes[j];
+      const dx = b.x-a.x, dy = b.y-a.y, d2 = dx*dx+dy*dy+1, d = Math.sqrt(d2);
+      const f = REP/d2, fx = f*dx/d, fy = f*dy/d;
+      a.vx -= fx; a.vy -= fy; b.vx += fx; b.vy += fy;
+    }
+  }
+
+  // Springs
+  for (const e of simEdges) {
+    const dx = e.d.x-e.s.x, dy = e.d.y-e.s.y, d = Math.sqrt(dx*dx+dy*dy)+.01;
+    const f = SPR*(d-REST), fx = f*dx/d, fy = f*dy/d;
+    e.s.vx += fx; e.s.vy += fy; e.d.vx -= fx; e.d.vy -= fy;
+  }
+
+  // Cluster + damping
+  let ke = 0;
+  for (const node of simNodes) {
+    node.vx += CLU*(node.cx-node.x); node.vy += CLU*(node.cy-node.y);
+    node.vx *= DAMP; node.vy *= DAMP;
+    node.x += node.vx; node.y += node.vy;
+    ke += node.vx*node.vx + node.vy*node.vy;
+  }
+  if (ke < 0.05 || frame > 300) settled = true;
+}
+
+// ---- Render ----
+function toWorld(cx, cy) { return { x: (cx-tx)/sc, y: (cy-ty)/sc }; }
+
+function drawArrow(x1, y1, x2, y2) {
+  const dx = x2-x1, dy = y2-y1, d = Math.sqrt(dx*dx+dy*dy);
+  if (d < 1) return;
+  const ux = dx/d, uy = dy/d, r = NODE_R+2;
+  const ex = x2-ux*r, ey = y2-uy*r;
+  ctx.beginPath(); ctx.moveTo(x1+ux*r, y1+uy*r); ctx.lineTo(ex, ey); ctx.stroke();
+  const ax = -uy*3.5, ay = ux*3.5;
+  ctx.beginPath(); ctx.moveTo(ex, ey); ctx.lineTo(ex-ux*7+ax, ey-uy*7+ay); ctx.lineTo(ex-ux*7-ax, ey-uy*7-ay); ctx.closePath(); ctx.fill();
+}
+
+function render() {
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+  ctx.save(); ctx.translate(tx, ty); ctx.scale(sc, sc);
+
+  const hlIds = selectedNode
+    ? new Set([selectedNode.id, ...simEdges.filter(e=>e.from===selectedNode.id||e.to===selectedNode.id).flatMap(e=>[e.from,e.to])])
+    : null;
+
+  // Edges
+  for (const e of simEdges) {
+    const hl = !hlIds || (hlIds.has(e.from) && hlIds.has(e.to));
+    ctx.globalAlpha = hl ? 0.65 : 0.1;
+    ctx.strokeStyle = ctx.fillStyle = color(e.s.service);
+    ctx.lineWidth = hl ? 1.5 : 0.7;
+    drawArrow(e.s.x, e.s.y, e.d.x, e.d.y);
+    if (hl && sc > 0.5 && e.label) {
+      ctx.globalAlpha = 0.85;
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = `${Math.min(11, 9/sc)}px monospace`;
+      ctx.textAlign = 'center';
+      ctx.fillText(e.label, (e.s.x+e.d.x)/2, (e.s.y+e.d.y)/2 - 5);
+    }
+  }
+
+  // Find hovered node
+  const w = toWorld(mouseX, mouseY);
+  let newHover = null, bestD = (10/sc)*(10/sc);
+  for (const node of simNodes) {
+    const d2 = (node.x-w.x)**2 + (node.y-w.y)**2;
+    if (d2 < bestD) { bestD = d2; newHover = node; }
+  }
+  hoveredNode = newHover;
+
+  // Nodes
+  ctx.globalAlpha = 1;
+  for (const node of simNodes) {
+    const hl = !hlIds || hlIds.has(node.id);
+    const hov = node === hoveredNode;
+    ctx.globalAlpha = hl ? 1 : 0.2;
+    ctx.fillStyle = color(node.service);
+    const r = hov ? NODE_R+2 : NODE_R;
+    ctx.beginPath(); ctx.arc(node.x, node.y, r, 0, Math.PI*2); ctx.fill();
+    if (hov || node === selectedNode) {
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5/sc;
+      ctx.globalAlpha = 1; ctx.stroke();
+    }
+    if ((hov || sc > 1.4) && hl) {
+      ctx.globalAlpha = 0.9;
+      ctx.fillStyle = '#e2e8f0';
+      const fs = Math.min(11, 9/sc);
+      ctx.font = `${fs}px sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.fillText(node.id.replace('GITHUB_','').substring(0,22), node.x, node.y+r+fs+2);
+    }
+  }
+
+  ctx.restore();
+
+  // Tooltip
+  if (hoveredNode) {
+    const n = hoveredNode;
+    const ins  = simEdges.filter(e=>e.to===n.id);
+    const outs = simEdges.filter(e=>e.from===n.id);
+    const inList  = [...new Set(ins.map(e=>e.from))].slice(0,4).join('<br>') || '—';
+    const outList = [...new Set(outs.map(e=>e.to))].slice(0,4).join('<br>') || '—';
+    const inMore  = ins.length > 4 ? `<br>+${ins.length-4} more` : '';
+    const outMore = outs.length > 4 ? `<br>+${outs.length-4} more` : '';
+    const lbls = [...new Set([...ins,...outs].map(e=>e.label))].filter(Boolean).slice(0,6).join(', ');
+    tooltip.innerHTML = `
+      <div class="t-slug">${n.id}</div>
+      <div class="t-service">service: <strong style="color:${color(n.service)}">${n.service}</strong></div>
+      <div class="t-section">needs output from (${ins.length})</div>
+      <div class="t-edge">${inList}${inMore}</div>
+      <div class="t-section">produces for (${outs.length})</div>
+      <div class="t-edge">${outList}${outMore}</div>
+      ${lbls ? `<div class="t-section">labels</div><div class="t-edge">${lbls}</div>` : ''}`;
+    tooltip.style.display = 'block';
+    const rect = wrap.getBoundingClientRect();
+    let lft = mouseX + 14, top = mouseY - 10;
+    if (lft + 310 > rect.width) lft = mouseX - 320;
+    tooltip.style.left = lft + 'px'; tooltip.style.top = Math.max(0, top) + 'px';
+  } else {
+    tooltip.style.display = 'none';
+  }
+}
+
+function loop() { tick(); render(); requestAnimationFrame(loop); }
+
+// ---- Resize ----
+function resize() {
+  canvas.width = wrap.clientWidth; canvas.height = wrap.clientHeight;
+  tx = canvas.width/2; ty = canvas.height/2; sc = 0.75;
+}
+new ResizeObserver(() => { canvas.width = wrap.clientWidth; canvas.height = wrap.clientHeight; }).observe(wrap);
+
+// ---- Mouse events ----
+canvas.addEventListener('mousedown', e => {
+  dragging = true; dragX0 = e.clientX; dragY0 = e.clientY; tx0 = tx; ty0 = ty;
+  canvas.classList.replace('grab','grabbing');
+});
+window.addEventListener('mouseup', e => {
+  if (dragging && Math.abs(e.clientX-dragX0)<5 && Math.abs(e.clientY-dragY0)<5) {
+    selectedNode = hoveredNode === selectedNode ? null : hoveredNode;
+  }
+  dragging = false; canvas.classList.replace('grabbing','grab');
+});
+window.addEventListener('mousemove', e => {
+  const r = canvas.getBoundingClientRect();
+  mouseX = e.clientX - r.left; mouseY = e.clientY - r.top;
+  if (dragging) { tx = tx0 + e.clientX-dragX0; ty = ty0 + e.clientY-dragY0; }
+});
+canvas.addEventListener('wheel', e => {
+  e.preventDefault();
+  const f = e.deltaY > 0 ? 0.88 : 1.14;
+  const r = canvas.getBoundingClientRect();
+  const cx = e.clientX-r.left, cy = e.clientY-r.top;
+  tx = cx - f*(cx-tx); ty = cy - f*(cy-ty); sc *= f;
+}, { passive: false });
+
+// ---- Controls ----
+function rebuildAndReset() { rebuild(); }
+svcFilterEl.addEventListener('change', rebuildAndReset);
+lblFilterEl.addEventListener('input', rebuildAndReset);
+showIsolatedEl.addEventListener('change', rebuildAndReset);
+
+// Populate service dropdown
+const allServices = [...new Set(GRAPH.nodes.map(n=>n.service))].sort();
+allServices.forEach(s => {
+  const o = document.createElement('option'); o.value = s; o.textContent = s;
+  svcFilterEl.appendChild(o);
+});
+
+// Legend
+allServices.forEach(s => {
+  const item = document.createElement('div'); item.className = 'legend-item';
+  item.innerHTML = `<div class="legend-dot" style="background:${color(s)}"></div><span>${s}</span>`;
+  item.addEventListener('click', () => {
+    svcFilterEl.value = svcFilterEl.value === s ? '' : s;
+    document.querySelectorAll('.legend-item').forEach(el => el.classList.remove('active'));
+    if (svcFilterEl.value === s) item.classList.add('active');
+    rebuildAndReset();
+  });
+  legendItemsEl.appendChild(item);
+});
+
+// Init
+resize();
+rebuild();
+loop();
+})();
+</script>
+</body>
+</html>

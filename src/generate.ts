@@ -15,7 +15,11 @@
  * handed, and your output must change when the input changes.
  */
 import { readFileSync, writeFileSync, existsSync } from "fs";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
 import OpenAI from "openai";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Load .env locally if present (grader injects vars via environment directly).
 if (existsSync(".env")) {
@@ -425,12 +429,20 @@ async function generate(tools: Tool[]): Promise<Graph> {
   return { nodes, edges: allEdges };
 }
 
+function writeViz(graph: Graph): void {
+  const template = readFileSync(join(__dirname, "viz-template.html"), "utf-8");
+  const html = template.replace("__GRAPH_DATA__", JSON.stringify(graph));
+  writeFileSync("viz.html", html, "utf-8");
+  console.error("wrote viz.html");
+}
+
 async function main() {
   const graph = await generate(loadCatalog());
   writeFileSync(OUT_PATH, JSON.stringify(graph, null, 2), "utf-8");
   console.error(
     `wrote ${graph.nodes.length} nodes, ${graph.edges.length} edges to ${OUT_PATH}`,
   );
+  writeViz(graph);
 }
 
 main().catch((e) => {
